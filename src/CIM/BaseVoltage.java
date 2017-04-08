@@ -1,4 +1,5 @@
 package CIM;
+
 import org.w3c.dom.Node;
 
 public class BaseVoltage extends CIM {

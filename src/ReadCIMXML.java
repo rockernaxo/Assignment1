@@ -9,8 +9,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import CIM.BaseVoltage;
-import CIM.CircuitBreaker;
+import CIM.*;
 
 public class ReadCIMXML {
 
@@ -21,6 +20,8 @@ public class ReadCIMXML {
 		ArrayList<NodeList> containerSSH = new ArrayList<NodeList>();
 		ArrayList<CircuitBreaker> breakerList = new ArrayList<CircuitBreaker>();
 		ArrayList<BaseVoltage> bVoltList = new ArrayList<BaseVoltage>();
+		ArrayList<Substation> subList = new ArrayList<Substation>();
+		ArrayList<VoltageLevel> voltLvlList = new ArrayList<VoltageLevel>();
 
 		try {
 
@@ -76,6 +77,12 @@ public class ReadCIMXML {
 						break;
 					case "cim:BaseVoltage":
 						bVoltList.add(new BaseVoltage(container.get(i).item(j)));		
+						break;
+					case "cim:Substation":
+						subList.add(new Substation(container.get(i).item(j)));
+						break;
+					case "cim:VoltageLevel":
+						voltLvlList.add(new VoltageLevel(container.get(i).item(j)));
 						break;
 					}	
 				}
