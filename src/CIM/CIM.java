@@ -8,6 +8,7 @@ public class CIM {
 	
 	public CIM (Node node) {
 		this.rdfID = extractAttribute(node, "rdf:ID");
+		this.name = extractTag(node, "cim:IdentifiedObject.name");
 	}
 
 	public String getName() {

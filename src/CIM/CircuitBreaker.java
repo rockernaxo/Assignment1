@@ -1,4 +1,5 @@
 package CIM;
+
 import org.w3c.dom.Node;
 
 public class CircuitBreaker extends CIM {
@@ -9,7 +10,6 @@ public class CircuitBreaker extends CIM {
 	public CircuitBreaker(Node nodeEQ, Node nodeSSH) {
 		super(nodeEQ);
 		this.state = Boolean.parseBoolean(extractTag(nodeSSH, "cim:Switch.open"));
-		this.name=extractTag(nodeEQ, "cim:IdentifiedObject.name");
 		this.equipmentContainer = extractAttFromTag(nodeEQ, "cim:Equipment.EquipmentContainer", "rdf:resource");
 	}
 
