@@ -30,8 +30,8 @@ public class ReadCIMXML {
 		try {
 
 			// Importing the XML EQ and SSH files
-			File SSHFile = new File("C:\\Users\\naxop\\Desktop\\MicroGridTestConfiguration_T1_BE_SSH_V2.xml");
-			File EQFile = new File("C:\\Users\\naxop\\Desktop\\MicroGridTestConfiguration_T1_BE_EQ_V2.xml");
+			File SSHFile = new File("MicroGridTestConfiguration_T1_BE_SSH_V2.xml");
+			File EQFile = new File("MicroGridTestConfiguration_T1_BE_EQ_V2.xml");
 
 			// Create and initiate the XML parser
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
