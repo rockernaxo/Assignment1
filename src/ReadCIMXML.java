@@ -14,7 +14,7 @@ public class ReadCIMXML {
 	public static void main(String[] args) {
 
 		String[] tags = { "cim:Breaker", "cim:BaseVoltage", "cim:VoltageLevel", "cim:Substation",
-				"cim:SynchronousMachine" };
+				"cim:SynchronousMachine", "cim:GeneratingUnit"};
 
 		ArrayList<NodeList> container = new ArrayList<NodeList>();
 		ArrayList<NodeList> containerSSH = new ArrayList<NodeList>();
@@ -26,6 +26,7 @@ public class ReadCIMXML {
 		ArrayList<Substation> subList = new ArrayList<Substation>();
 		ArrayList<VoltageLevel> voltLvlList = new ArrayList<VoltageLevel>();
 		ArrayList<SynchronousMachine> synMach = new ArrayList<SynchronousMachine>();
+		ArrayList<GeneratingUnit> genUnit = new ArrayList<GeneratingUnit>();
 
 		try {
 
@@ -71,6 +72,9 @@ public class ReadCIMXML {
 						break;
 					case "cim:SynchronousMachine":
 						synMach.add(new SynchronousMachine(container.get(i).item(j), containerSSH.get(1).item(j)));
+						break;
+					case "cim:GeneratingUnit":
+						genUnit.add(new GeneratingUnit(container.get(i).item(j)));
 						break;
 					}
 				}
