@@ -49,26 +49,7 @@ public class ReadCIMXML {
 			for (int i = 0; i < tags.length; i++) {
 				container.add(docEQ.getElementsByTagName(tags[i]));
 			}
-
-			// System.out.println(container.get(0).item(0).getNodeName());
-			// System.out.println(container.get(1).item(0).getNodeName());
-
-			/*
-			 * // Extract all the base voltage for (int i = 0; i <
-			 * volList.getLength(); i++) { baseVList.add(new
-			 * BaseVoltage(extractAtribute(volList.item(i), "rdf:ID"),
-			 * Double.parseDouble(extractTag(volList.item(i),
-			 * "cim:BaseVoltage.nominalVoltage")))); }
-			 * 
-			 * // Extract all the circuit breakers for (int i = 0; i <
-			 * cbList.getLength(); i++) { breakerList.add(new
-			 * CircuitBreaker(true, // Here it should be // the state opened //
-			 * from the other // file extractAtribute(cbList.item(i), "rdf:ID"),
-			 * extractTag(cbList.item(i), "cim:IdentifiedObject.name"),
-			 * extractTag(cbList.item(i),
-			 * "cim:IdentifiedObject.EquipmentContainer"))); }
-			 */
-			// Generalization of the previous method
+			
 
 			for (int i = 0; i < container.size(); i++) {
 
@@ -99,35 +80,4 @@ public class ReadCIMXML {
 			e.printStackTrace();
 		}
 	}
-
-	/*
-	 * Now it's embedded onto the CIM class public static String extractTag(Node
-	 * node, String tag) { // Method to extract a tag from a node
-	 * //ArrayList<String> output = new ArrayList<String>(); Element element =
-	 * (Element) node;
-	 * 
-	 * return element.getElementsByTagName(tag).item(0).getTextContent(); /*
-	 * This could be useful to automate the process for (String item : tag) {
-	 * System.out.println(item);
-	 * element.getElementsByTagName("name").item(0).getTextContent();
-	 * output.add(element.getElementsByTagName("name").item(0).getTextContent())
-	 * ;
-	 * output.add(element.getElementsByTagName(item).item(0).getTextContent());
-	 * }
-	 * 
-	 * return output;
-	 * 
-	 * 
-	 * }
-	 * 
-	 * public static String extractAttribute(Node node, String attribute) { //
-	 * Method to extract an attribute from a node Element element = (Element)
-	 * node; return element.getAttribute(attribute); }
-	 * 
-	 * public static String extractAttFromTag(Node node, String tag, String
-	 * attribute) { // Method to extract an attribute from a node's tag Element
-	 * element = (Element) node; Element subElement = (Element)
-	 * element.getElementsByTagName(tag).item(0); return
-	 * subElement.getAttribute(attribute); }
-	 */
 }
