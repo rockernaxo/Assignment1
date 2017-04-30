@@ -14,7 +14,8 @@ public class ReadCIMXML {
 	public static void main(String[] args) {
 
 		String[] tags = { "cim:Breaker", "cim:BaseVoltage", "cim:VoltageLevel", "cim:Substation",
-				"cim:SynchronousMachine", "cim:GeneratingUnit"};
+				"cim:SynchronousMachine", "cim:GeneratingUnit", "cim:RegulatingControl", "cim:PowerTransformer", "cim:PowerTransformerEnd"
+				,"cim:EnergyConsumer", "cim:RatioTapChanger"};
 
 		ArrayList<NodeList> container = new ArrayList<NodeList>();
 		ArrayList<NodeList> containerSSH = new ArrayList<NodeList>();
@@ -27,6 +28,11 @@ public class ReadCIMXML {
 		ArrayList<VoltageLevel> voltLvlList = new ArrayList<VoltageLevel>();
 		ArrayList<SynchronousMachine> synMach = new ArrayList<SynchronousMachine>();
 		ArrayList<GeneratingUnit> genUnit = new ArrayList<GeneratingUnit>();
+		ArrayList<RegulatingControl> regControl = new ArrayList<RegulatingControl>();
+		ArrayList<PowerTransformer> powtrafo = new ArrayList<PowerTransformer>();
+		ArrayList<PowerTransformerEnd> powtrafoEnd = new ArrayList<PowerTransformerEnd>();
+		ArrayList<EnergyConsumer> energCons = new ArrayList<EnergyConsumer>();
+		ArrayList<RatioTapChanger> ratiotap = new ArrayList<RatioTapChanger>();
 
 		try {
 
@@ -47,6 +53,9 @@ public class ReadCIMXML {
 			// Add all NodeLists from the XML file into an array
 			containerSSH.add(docSSH.getElementsByTagName("cim:Breaker"));
 			containerSSH.add(docSSH.getElementsByTagName("cim:SynchronousMachine"));
+			containerSSH.add(docSSH.getElementsByTagName("cim:RegulatingControl"));
+			containerSSH.add(docSSH.getElementsByTagName("cim:EnergyConsumer"));
+			containerSSH.add(docSSH.getElementsByTagName("cim:RatioTapChanger"));
 			for (int i = 0; i < tags.length; i++) {
 				container.add(docEQ.getElementsByTagName(tags[i]));
 			}
@@ -75,6 +84,21 @@ public class ReadCIMXML {
 						break;
 					case "cim:GeneratingUnit":
 						genUnit.add(new GeneratingUnit(container.get(i).item(j)));
+						break;
+					case "cim:RegulatingControl":
+						regControl.add(new RegulatingControl(container.get(i).item(j), containerSSH.get(2).item(j)));
+						break;
+					case "cim:PowerTransformer":
+						powtrafo.add(new PowerTransformer(container.get(i).item(j)));
+						break;
+					case "cim:PowerTransformerEnd":
+						powtrafoEnd.add(new PowerTransformerEnd(container.get(i).item(j)));
+						break;
+					case "cim:EnergyConsumer":
+						energCons.add(new EnergyConsumer(container.get(i).item(j), containerSSH.get(3).item(j)));
+						break;
+					case "cim:RatioTapChanger":
+						ratiotap.add(new RatioTapChanger(container.get(i).item(j), containerSSH.get(4).item(j)));
 						break;
 					}
 				}
