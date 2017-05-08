@@ -46,6 +46,7 @@ public class ReadCIMXML {
 			//File SSHFile = new File("MicroGridTestConfiguration_T1_BE_SSH_V2.xml");
 			//File EQFile = new File("MicroGridTestConfiguration_T1_BE_EQ_V2.xml");
 
+			// Archivo pequeño
 			File SSHFile = new File("Assignment_SSH_reduced.xml");
 			File EQFile = new File("Assignment_EQ_reduced.xml");
 			
@@ -125,85 +126,72 @@ public class ReadCIMXML {
 				}
 			}
 			
-			String idCN;
-			String tCN;
-			String tID;
-			ArrayList<String> CNTerminal = new ArrayList<String>();
-			Map<String, ArrayList<String>> nombreMap = new HashMap<String, ArrayList<String>>();
-			Map<String, String> nombre = new HashMap<String, String>();
-			for (int ii1 = 0; ii1 < connectivityNode.size(); ii1++) { 
-				 idCN=connectivityNode.get(ii1).getRdfID();   //get id for CN
-				 CNTerminal.clear();
+			// Initialization of dictionaries
+			Map<String, ArrayList<String>> idCNTerminalMap = new HashMap<String, ArrayList<String>>();
+			Map<String, ArrayList<String>> idCNTerminalMapUpdated = new HashMap<String, ArrayList<String>>();
+			Map<String, String> terminalIdCNMap = new HashMap<String, String>();
+			
+			for (int i= 0; i < connectivityNode.size(); i++) { 
+				 String idCN=connectivityNode.get(i).getRdfID();   //get id for CN
+				 ArrayList<String> CNTerminal = new ArrayList<String>();
 				 
-				for (int jj1 = 0; jj1 < terminal.size(); jj1++) {					
-					tCN=terminal.get(jj1).getConnectNode();
-					tID=terminal.get(jj1).getRdfID();
-					//t = t.startsWith("#") ? t.substring(1) : t;	
-					//System.out.println(t);
-					//System.out.println(idbus);
-					nombre.put(tID, tCN); //map with id terminal key CN
-					if (tCN.equals(idCN)){	 //put the terminals that have these id in a list						
-						CNTerminal.add(tID);
-											}					
+				for (int j = 0; j < terminal.size(); j++) {
+					//t = t.startsWith("#") ? t.substring(1) : t;
+					// Map idTerminal (key) with idCN
+					terminalIdCNMap.put(terminal.get(j).getRdfID(), terminal.get(j).getConnectNode());
+					//Put the terminals that have that id in a list
+					if (terminal.get(j).getConnectNode().equals(idCN)) {	 						
+						CNTerminal.add(terminal.get(j).getRdfID());
+					}					
 				}
-				nombreMap.put(idCN,CNTerminal);				
+				
+				// Map idCN with the list of Terminals connected to this CN
+				idCNTerminalMap.put(idCN,CNTerminal);				
 			}
 			
 			ArrayList<String> lis = new ArrayList<String>();
 			String tCNDE;
 			String idBr;
-			String previousT;
-			String CN1 = null;
-			String CN2 = null;
+			String idCNT1 = null;
+			String idCNT2 = null;
 			for (int ii1 = 0; ii1 < breakerList.size(); ii1++) { 
 				idBr=breakerList.get(ii1).getRdfID();   //get id for breaker
-				previousT="";
+				String previousT= null;
 				 
 				for (int jj1 = 0; jj1 < terminal.size(); jj1++) {					
 					tCNDE=terminal.get(jj1).getCondEquip();  
-					//t = t.startsWith("#") ? t.substring(1) : t;	
-					//System.out.println(t);
-					//System.out.println(idbus);
+					//t = t.startsWith("#") ? t.substring(1) : t;
 				
 					if (tCNDE.equals(idBr)){
 						
-						if (previousT==""){
+						if (previousT==null){
 							previousT=terminal.get(jj1).getRdfID();
 						}
 						else{
-							CN1=nombre.get(previousT);
-							CN2=nombre.get(terminal.get(jj1).getRdfID());
+							idCNT1=terminalIdCNMap.get(previousT);
+							idCNT2=terminalIdCNMap.get(terminal.get(jj1).getRdfID());
 						}
-						}
+					}
 					
 				}
-				System.out.println(CN1 + "CN1");
-				System.out.println(CN2 + "CN2");
-				//lis.clear();
-				//if (breakerList.get(ii1).isState()){
-					//lis=nombreMap.get(CN1);
-					//lis.addAll(nombreMap.get(CN2));
-					//nombreMap.remove(CN1);
-					//nombreMap.remove(CN2);
-					//nombreMap.put(CN1, lis);
-				//}				
+				System.out.println(idCNT1 + "CN1");
+				System.out.println(idCNT2 + "CN2");
+				// Mítica lista lis
+				lis.clear();
+				if (!breakerList.get(ii1).isState()){
+					//Create a list with the terminals of CNT1 (First terminal of the breaker)
+					lis=idCNTerminalMap.get(idCNT1);
+					// Add all the terminals from the CNT2 (Second terminal of the breaker)
+					lis.addAll(idCNTerminalMap.get(idCNT2));
+					// We remove the id of both CN from the dictionary
+					//idCNTerminalMap.remove(idCNT1);
+					//idCNTerminalMap.remove(idCNT2);
+					// We add a new fused CN with all the terminals from CNT1 and CNT2
+					idCNTerminalMapUpdated.put(idCNT1, lis);
+				}				
 			}
 			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
+				
 			String idbus;
 			String connter;
 			//String jordi;
@@ -254,8 +242,8 @@ public class ReadCIMXML {
 				//busline.clear();
 				}
 				
-			System.out.println(nombreMap);
-			System.out.println(nombre);
+			System.out.println(idCNTerminalMap);
+			System.out.println(terminalIdCNMap);
 			//System.out.println(buslineMaster);	
 			System.out.println("End");
 		} catch (Exception e) {
