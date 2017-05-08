@@ -197,16 +197,16 @@ public class ReadCIMXML {
 			//String jordi;
 			String t;
 			ArrayList<String> bustTerminal = new ArrayList<String>();
-			for (int ii1 = 0; ii1 < busbarSection.size(); ii1++) {
-				 idbus=busbarSection.get(ii1).getRdfID();
+			for (int i = 0; i < busbarSection.size(); i++) {
+				 idbus=busbarSection.get(i).getRdfID();
 				 
-				for (int jj1 = 0; jj1 < terminal.size(); jj1++) {					
-					t=terminal.get(jj1).getCondEquip();
+				for (int j = 0; j < terminal.size(); j++) {					
+					t=terminal.get(j).getCondEquip();
 					//t = t.startsWith("#") ? t.substring(1) : t;	
 					//System.out.println(t);
 					//System.out.println(idbus);
 					if (t.equals(idbus)){	
-						connter=terminal.get(jj1).getConnectNode();
+						connter=terminal.get(j).getConnectNode();
 						bustTerminal.add(connter);
 											}					
 				}
