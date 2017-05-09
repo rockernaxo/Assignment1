@@ -16,8 +16,9 @@ public class ReadCIMXML {
 	public static void main(String[] args) {
 
 		String[] tags = { "cim:Breaker", "cim:BaseVoltage", "cim:VoltageLevel", "cim:Substation",
-				"cim:SynchronousMachine", "cim:GeneratingUnit", "cim:RegulatingControl", "cim:PowerTransformer", "cim:PowerTransformerEnd"
-				,"cim:EnergyConsumer", "cim:RatioTapChanger", "cim:ACLineSegment", "cim:Terminal", "cim:BusbarSection", "cim:ConnectivityNode"};
+				"cim:SynchronousMachine", "cim:GeneratingUnit", "cim:RegulatingControl", "cim:PowerTransformer",
+				"cim:PowerTransformerEnd", "cim:EnergyConsumer", "cim:RatioTapChanger", "cim:ACLineSegment",
+				"cim:Terminal", "cim:BusbarSection", "cim:ConnectivityNode" };
 
 		ArrayList<NodeList> container = new ArrayList<NodeList>();
 		ArrayList<NodeList> containerSSH = new ArrayList<NodeList>();
@@ -43,13 +44,15 @@ public class ReadCIMXML {
 		try {
 
 			// Importing the XML EQ and SSH files
-			//File SSHFile = new File("MicroGridTestConfiguration_T1_BE_SSH_V2.xml");
-			//File EQFile = new File("MicroGridTestConfiguration_T1_BE_EQ_V2.xml");
+			// File SSHFile = new
+			// File("MicroGridTestConfiguration_T1_BE_SSH_V2.xml");
+			// File EQFile = new
+			// File("MicroGridTestConfiguration_T1_BE_EQ_V2.xml");
 
 			// Archivo pequeño
 			File SSHFile = new File("Assignment_SSH_reduced.xml");
 			File EQFile = new File("Assignment_EQ_reduced.xml");
-			
+
 			// Create and initiate the XML parser
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
@@ -69,7 +72,6 @@ public class ReadCIMXML {
 			for (int i = 0; i < tags.length; i++) {
 				container.add(docEQ.getElementsByTagName(tags[i]));
 			}
-			
 
 			for (int i = 0; i < container.size(); i++) {
 
@@ -122,129 +124,123 @@ public class ReadCIMXML {
 					case "cim:ConnectivityNode":
 						connectivityNode.add(new ConnectivityNode(container.get(i).item(j)));
 						break;
-											}
-				}
-			}
-			
-			// Initialization of dictionaries
-			Map<String, ArrayList<String>> idCNTerminalMap = new HashMap<String, ArrayList<String>>();
-			Map<String, ArrayList<String>> idCNTerminalMapUpdated = new HashMap<String, ArrayList<String>>();
-			Map<String, String> terminalIdCNMap = new HashMap<String, String>();
-			
-			for (int i= 0; i < connectivityNode.size(); i++) { 
-				 String idCN=connectivityNode.get(i).getRdfID();   //get id for CN
-				 ArrayList<String> CNTerminal = new ArrayList<String>();
-				 
-				for (int j = 0; j < terminal.size(); j++) {
-					//t = t.startsWith("#") ? t.substring(1) : t;
-					// Map idTerminal (key) with idCN
-					terminalIdCNMap.put(terminal.get(j).getRdfID(), terminal.get(j).getConnectNode());
-					//Put the terminals that have that id in a list
-					if (terminal.get(j).getConnectNode().equals(idCN)) {	 						
-						CNTerminal.add(terminal.get(j).getRdfID());
-					}					
-				}
-				
-				// Map idCN with the list of Terminals connected to this CN
-				idCNTerminalMap.put(idCN,CNTerminal);				
-			}
-			
-			ArrayList<String> lis = new ArrayList<String>();
-			String tCNDE;
-			String idBr;
-			String idCNT1 = null;
-			String idCNT2 = null;
-			for (int ii1 = 0; ii1 < breakerList.size(); ii1++) { 
-				idBr=breakerList.get(ii1).getRdfID();   //get id for breaker
-				String previousT= null;
-				 
-				for (int jj1 = 0; jj1 < terminal.size(); jj1++) {					
-					tCNDE=terminal.get(jj1).getCondEquip();  
-					//t = t.startsWith("#") ? t.substring(1) : t;
-				
-					if (tCNDE.equals(idBr)){
-						
-						if (previousT==null){
-							previousT=terminal.get(jj1).getRdfID();
-						}
-						else{
-							idCNT1=terminalIdCNMap.get(previousT);
-							idCNT2=terminalIdCNMap.get(terminal.get(jj1).getRdfID());
-						}
 					}
-					
-				}
-				System.out.println(idCNT1 + "CN1");
-				System.out.println(idCNT2 + "CN2");
-				// Mítica lista lis
-				lis.clear();
-				if (!breakerList.get(ii1).isState()){
-					//Create a list with the terminals of CNT1 (First terminal of the breaker)
-					lis=idCNTerminalMap.get(idCNT1);
-					// Add all the terminals from the CNT2 (Second terminal of the breaker)
-					lis.addAll(idCNTerminalMap.get(idCNT2));
-					// We remove the id of both CN from the dictionary
-					//idCNTerminalMap.remove(idCNT1);
-					//idCNTerminalMap.remove(idCNT2);
-					// We add a new fused CN with all the terminals from CNT1 and CNT2
-					idCNTerminalMapUpdated.put(idCNT1, lis);
-				}				
-			}
-			
-				
-			String idbus;
-			String connter;
-			//String jordi;
-			String t;
-			ArrayList<String> bustTerminal = new ArrayList<String>();
-			for (int i = 0; i < busbarSection.size(); i++) {
-				 idbus=busbarSection.get(i).getRdfID();
-				 
-				for (int j = 0; j < terminal.size(); j++) {					
-					t=terminal.get(j).getCondEquip();
-					//t = t.startsWith("#") ? t.substring(1) : t;	
-					//System.out.println(t);
-					//System.out.println(idbus);
-					if (t.equals(idbus)){	
-						connter=terminal.get(j).getConnectNode();
-						bustTerminal.add(connter);
-											}					
 				}
 			}
-			String idline;
-			String tt;	
-			String ttt;	
-			ArrayList<Double> busline = new ArrayList<Double>();
-			ArrayList<ArrayList<Double>> buslineMaster = new  ArrayList<ArrayList<Double>>();
-			
-			for (int ii = 0; ii < lines.size(); ii++) { //Iteration in lines elements
-				idline=lines.get(ii).getRdfID(); //take the id of line ii
-				for (int jj = 0; jj < terminal.size(); jj++) {  //go through all terminals
-					ttt=terminal.get(jj).getConnectNode();
-					ttt= ttt.startsWith("#") ? ttt.substring(1) : ttt; //take cond equip i treure #
-					tt=terminal.get(jj).getCondEquip();//take the cond equipment of terminal
-					tt= tt.startsWith("#") ? tt.substring(1) : tt;
-					if (idline.equals(tt)){
-						//System.out.println(ttt);
-						for (int jjj = 0; jjj < bustTerminal.size(); jjj++) { //go through the buses list of found above which is made of connect nodes id
-							if (ttt.equals(bustTerminal.get(jjj))){
-								busline.add((double)(jjj));							
-								busline.add(lines.get(ii).getR());
-								busline.add(lines.get(ii).getX());
-								busline.add(lines.get(ii).getB());
-							
+
+			// Initialization of dictionaries
+			// Map<String, ArrayList<String>> idCNTerminalMap = new
+			// HashMap<String, ArrayList<String>>();
+			// Map<String, ArrayList<String>> idCNTerminalMapUpdated = new
+			// HashMap<String, ArrayList<String>>();
+			// Map<String, String> terminalIdCNMap = new HashMap<String,
+			// String>();
+
+			ArrayList<ArrayList<Terminal>> connectNode = new ArrayList<ArrayList<Terminal>>();
+
+			for (int i = 0; i < connectivityNode.size(); i++) {
+
+				connectNode.add(new ArrayList<Terminal>());
+
+				for (int j = 0; j < terminal.size(); j++) {
+					// Put the terminals that have that id in a list
+					if (terminal.get(j).getConnectNode().equals(connectivityNode.get(i).getRdfID())) {
+						connectNode.get(i).add(terminal.get(j));
+					}
+				}
+			}
+
+			ArrayList<SuperConnectivityNode> SCNList = new ArrayList<SuperConnectivityNode>();
+			// List of the idCN of CN with breakers
+			ArrayList<Terminal> withBreakers = new ArrayList<Terminal>();
+
+			// Now we iterate over the breakers to create the
+			// SuperConnectivityNodes
+			for (int i = 0; i < breakerList.size(); i++) {
+				// Check if is the first or the second terminal of the breaker
+				boolean firstTerminal = false;
+				// Necesitamos la ID del CN? Esa variable es para preservarla
+				int firstCN = -1;
+				// We create a list in which we will include all the terminals
+				// aggregated into the SCN
+				ArrayList<Terminal> terminalList = new ArrayList<Terminal>();
+
+				boolean isBreaker = false;
+
+				// Look for the terminals in the connectNode list
+				for (int j = 0; j < connectNode.size(); j++) {
+					// Look in the list of terminals for the breaker's
+					for (int k = 0; k < connectNode.get(j).size(); k++) {
+						// We find the first terminal of the breaker
+						if (connectNode.get(j).get(k).getCondEquip().equals(breakerList.get(i).getRdfID())) {
+							// Activate the variable for the non-breaker list
+							isBreaker = true;
+							// Check if we found only the first terminal
+							if (!firstTerminal) {
+								// We have found the first terminal
+								terminalList.addAll(connectNode.get(j));
+								firstTerminal = true;
+								firstCN = j;
+							} else {
+								// The second is found and the SCN can be
+								// created
+								terminalList.addAll(connectNode.get(j));
+								SCNList.add(new SuperConnectivityNode(connectNode.get(firstCN).get(0).getConnectNode(),
+										connectNode.get(j).get(k).getConnectNode(), terminalList));
 							}
 						}
 					}
-					buslineMaster.add(busline);
-					
+
+					// If there is no breaker, this is directly a SCN
+					if (isBreaker) {
+						isBreaker = false;
+						withBreakers.add(connectNode.get(j).get(0));
 					}
-				//busline.clear();
 				}
-				
-			System.out.println(idCNTerminalMap);
-			System.out.println(terminalIdCNMap);
-			//System.out.println(buslineMaster);	
+			}
+
+			// Check duplicity of terminals in the SCN
+			for (int i = 0; i < SCNList.size(); i++) {
+				// Get one SCN to compare it with others
+				for (int k = 0; k < SCNList.get(i).getIdCN().size(); k++) {
+					// Get the idCN from the SCN one by one
+					String idCN = SCNList.get(i).getIdCN().get(k);
+					for (int j = i + 1; j < SCNList.size(); j++) {
+						if (SCNList.get(j).getIdCN().contains(idCN)) {
+							// The SCN have a CN in common, therefore are
+							// electrically equal
+							// Add the idCN and merge the terminal lists to the
+							// original SCN
+							SCNList.get(i).addId(SCNList.get(j).getIdCN());
+							SCNList.get(i).mergeTerminalLists(SCNList.get(j).getTerminalList());
+							SCNList.remove(j);
+						}
+					}
+				}
+			}
+
+			// Remove all CN with breakers from the array
+			int index = 0;
+			while (index < connectNode.size()) {
+				int j = 0;
+				boolean isBreaker = false;
+				while (j < withBreakers.size() && !isBreaker) {
+					if (connectNode.get(index).contains(withBreakers.get(j))) {
+						connectNode.remove(index);
+						index = -1;
+						isBreaker = true;
+					}
+					j++;
+				}
+				index++;
+			}
+
+			// Create as many SCN as CN are left in the array
+			for (int j = 0; j < connectNode.size(); j++) {
+				String idCN = connectNode.get(j).get(0).getConnectNode();
+				SCNList.add(new SuperConnectivityNode(idCN, connectNode.get(j)));
+			}
+
 			System.out.println("End");
 		} catch (Exception e) {
 			e.printStackTrace();
