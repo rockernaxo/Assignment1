@@ -4,30 +4,29 @@ import java.util.ArrayList;
 
 public class SuperConnectivityNode {
 
-	String id1, id2;
-	ArrayList<String> terminalIdList= new ArrayList<String>();
-	
-	public SuperConnectivityNode (String id1, ArrayList<String> terminalIdList) {
-		this.id1=id1;
-		this.id2=id1;
-		this.terminalIdList=terminalIdList;
+	String idCN1, idCN2;
+	ArrayList<Terminal> terminalList = new ArrayList<Terminal>();
+
+	// When the CN has no breakers
+	public SuperConnectivityNode(String id1, ArrayList<Terminal> terminalList) {
+		this.idCN1 = id1;
+		this.idCN2 = id1;
+		this.terminalList = terminalList;
 	}
-	
-	public SuperConnectivityNode (String id1, String id2, ArrayList<String> terminalIdList) {
-		this.id1=id1;
-		this.id2=id2;
-		this.terminalIdList=terminalIdList;
+
+	public SuperConnectivityNode(String id1, String id2, ArrayList<Terminal> terminalList) {
+		this.idCN1 = id1;
+		this.idCN2 = id2;
+		this.terminalList = terminalList;
 	}
-	
-	// constructor
-		// lista de terminales
-		// id de los dos CN fusionados
-	// métodos
-		// preguntar si un terminal pertenece
-	
+
+	public ArrayList<Terminal> getTerminalList() {
+		return terminalList;
+	}
+
 	public boolean isItIn(String terminalId) {
-		for (int i=0; i<terminalIdList.size(); i++) {
-			if (terminalId.equals(terminalIdList.get(i)))
+		for (int i = 0; i < terminalList.size(); i++) {
+			if (terminalId.equals(terminalList.get(i).getRdfID()))
 				return true;
 		}
 		return false;
