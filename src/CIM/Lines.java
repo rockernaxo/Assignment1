@@ -1,6 +1,6 @@
 package CIM;
 import org.w3c.dom.Node;
-public class Lines extends CIM{
+public class Lines extends CIM implements PiModel{
 	private double r, x, b, g;
 	private String baseVoltage;
 	public Lines(Node nodeEQ) {
@@ -17,7 +17,6 @@ public class Lines extends CIM{
 	public String getBaseVoltage() {
 		return baseVoltage;
 	}
-
 
 	public double getG() {
 		return g;

@@ -44,10 +44,8 @@ public class ReadCIMXML {
 		try {
 
 			// Importing the XML EQ and SSH files
-			// File SSHFile = new
-			// File("MicroGridTestConfiguration_T1_BE_SSH_V2.xml");
-			// File EQFile = new
-			// File("MicroGridTestConfiguration_T1_BE_EQ_V2.xml");
+			//File SSHFile = new File("MicroGridTestConfiguration_T1_BE_SSH_V2.xml");
+			 //File EQFile = new File("MicroGridTestConfiguration_T1_BE_EQ_V2.xml");
 
 			// Archivo pequeño
 			File SSHFile = new File("Assignment_SSH_reduced.xml");
@@ -128,13 +126,6 @@ public class ReadCIMXML {
 				}
 			}
 
-			// Initialization of dictionaries
-			// Map<String, ArrayList<String>> idCNTerminalMap = new
-			// HashMap<String, ArrayList<String>>();
-			// Map<String, ArrayList<String>> idCNTerminalMapUpdated = new
-			// HashMap<String, ArrayList<String>>();
-			// Map<String, String> terminalIdCNMap = new HashMap<String,
-			// String>();
 
 			ArrayList<ArrayList<Terminal>> connectNode = new ArrayList<ArrayList<Terminal>>();
 
@@ -241,112 +232,13 @@ public class ReadCIMXML {
 				sCNList.add(new SuperConnectivityNode(idCN, connectNode.get(j)));
 			}
 			
-			double Sbase=1000; //MVA
-			ComplexNumber zero = new ComplexNumber();		
-			ComplexNumber[][] Y = new ComplexNumber[sCNList.size()][sCNList.size()];
-			for (int r = 0; r < sCNList.size(); r++){
-			  for (int c = 0; c < sCNList.size(); c++){
-			      Y[r][c] = zero;
-			  }
-			}
-			Boolean firstTerminal=false;
-			Terminal T1, T2;
-			for (int i = 0; i < lines.size(); i++) {
-				double zbase=1;
-				int CN1=-1;
-				int CN2=-1;
-				for (int j = 0; j < terminal.size(); j++) {
-					 if (terminal.get(j).getRdfID().equals(lines.get(i).getRdfID())){
-						if (!firstTerminal){
-							firstTerminal=true;
-							T1=terminal.get(j);	
-							for (int n = 0; n < sCNList.size(); n++) {
-								if (sCNList.get(n).getTerminalList().contains(T1)){
-									CN1=n;
-									}
-								}
-							}
-						else{
-							T2=terminal.get(j);
-							for (int n = 0; n < sCNList.size(); n++) {
-								if (sCNList.get(n).getTerminalList().contains(T2)){
-									CN2=n;
-									}
-								}
-							}					
-						}
-					}				
-				 for (int k = 0; i < bVoltList.size(); k++) {
-					 if (lines.get(i).getBaseVoltage().equals(bVoltList.get(k).getRdfID())){
-						 zbase= Math.pow(bVoltList.get(k).getNominalValue(),2)/Sbase;					 				 
-					 }
-				ComplexNumber Z=new ComplexNumber(lines.get(i).getR()/zbase, lines.get(i).getX()/zbase );
-				ComplexNumber y=new ComplexNumber(lines.get(i).getG()*zbase, lines.get(i).getB()*zbase );
-				ComplexNumber Zy=ComplexNumber.add(Z,y);
-				Z.inv();			
-				Y[CN1][CN1].addTo(Zy);
-				Y[CN2][CN2].addTo(Zy);
-				Z.neg();
-				Y[CN1][CN2]=Z;
-				Y[CN2][CN1]=Z;
-				 }
-			}
-			
-			//We update all the transformers to supertrafos
-			ArrayList<SuperTrafo> superTrafo = new ArrayList<SuperTrafo>();
-			for (int i = 0; i < powtrafo.size(); i++) {
-				SuperTrafo newSuperTrafo= new SuperTrafo(powtrafo.get(i), powtrafoEnd);
-				superTrafo.add(newSuperTrafo);			
-			}
-			
-			Boolean firstTerminalTrafo=false;
-			for (int i = 0; i < superTrafo.size(); i++) {
-				double zbase=1;
-				int CN1=-1;
-				int CN2=-1;
-				for (int j = 0; j < terminal.size(); j++) {
-					if (terminal.get(j).getRdfID().equals(superTrafo.get(i).getRdfID())){
-						if (!firstTerminalTrafo){
-							firstTerminalTrafo=true;
-							T1=terminal.get(j);	
-							for (int n = 0; j < sCNList.size(); n++) {
-								if (sCNList.get(n).getTerminalList().contains(T1)){
-									CN1=n;
-									}
-								}
-							}
-						else{
-							T2=terminal.get(j);
-							for (int n = 0; j < sCNList.size(); n++) {
-								if (sCNList.get(n).getTerminalList().contains(T2)){
-									CN2=n;
-									}
-								}
-							}
-						
-					}
-				
-				}
-				for (int k = 0; i < bVoltList.size(); k++) {
-					 if (superTrafo.get(i).getTrafoEnd1().getBaseVoltage().equals(bVoltList.get(k).getRdfID())){
-						 zbase= Math.pow(bVoltList.get(k).getNominalValue(),2)/Sbase;					 				 
-					 }
-				ComplexNumber Z=new ComplexNumber(superTrafo.get(i).getTrafoEnd1().getR()/zbase, superTrafo.get(i).getTrafoEnd1().getX()/zbase );
-				ComplexNumber y=new ComplexNumber(superTrafo.get(i).getTrafoEnd1().getG()*zbase, superTrafo.get(i).getTrafoEnd1().getB()*zbase );
-				ComplexNumber Zy=ComplexNumber.add(Z,y);
-				Z.inv();			
-				Y[CN1][CN1].addTo(Zy);
-				Y[CN2][CN2].addTo(Zy);
-				Z.neg();
-				Y[CN1][CN2]=Z;
-				Y[CN2][CN1]=Z;
-				 }
-			}
-			
-
+			// Y matrix calculation
+			YMatrix Y = new YMatrix(100, sCNList, lines, terminal, bVoltList, powtrafo, powtrafoEnd);
+			ComplexNumber[][] solution=Y.getY();
 			System.out.println("End");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
+	
 }
