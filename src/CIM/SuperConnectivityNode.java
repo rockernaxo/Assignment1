@@ -24,11 +24,11 @@ public class SuperConnectivityNode {
 		return terminalList;
 	}
 
-	public boolean isItIn(String terminalId) {
+	public int isItIn(String terminalId) {
 		for (int i = 0; i < terminalList.size(); i++) {
 			if (terminalId.equals(terminalList.get(i).getRdfID()))
-				return true;
+				return i;
 		}
-		return false;
+		return -1;
 	}
 }
