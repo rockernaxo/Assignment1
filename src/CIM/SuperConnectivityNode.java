@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 public class SuperConnectivityNode {
 
-	String idCN1, idCN2;
-	ArrayList<Terminal> terminalList = new ArrayList<Terminal>();
+	private String idCN1, idCN2;
+	private ArrayList<Terminal> terminalList = new ArrayList<Terminal>();
 
 	// When the CN has no breakers
 	public SuperConnectivityNode(String id1, ArrayList<Terminal> terminalList) {
