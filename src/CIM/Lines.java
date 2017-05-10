@@ -8,9 +8,8 @@ public class Lines extends CIM implements PiModel{
 		this.r = Double.parseDouble(extractTag(nodeEQ, "cim:ACLineSegment.r"));
 		this.x = Double.parseDouble(extractTag(nodeEQ, "cim:ACLineSegment.x"));
 		this.b = Double.parseDouble(extractTag(nodeEQ, "cim:ACLineSegment.bch"));
-		this.g = Double.parseDouble(extractTag(nodeEQ, "cim:ACLineSegment.gch"));
-		this.g = Double.parseDouble(extractTag(nodeEQ, "cim:ACLineSegment.gch"));
-		this.baseVoltage = extractAttFromTag(nodeEQ, "cim:ConductingEquipment.BaseVoltage", "rdf:resource");
+		this.g = Double.parseDouble(extractTag(nodeEQ, "cim:ACLineSegment.gch"));		
+		this.baseVoltage = extractAttFromTag(nodeEQ, "cim:ConductingEquipment.BaseVoltage", "rdf:resource").substring(1);
 	}
 	
 

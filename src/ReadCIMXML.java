@@ -133,7 +133,13 @@ public class ReadCIMXML {
 			// Y matrix calculation
 			YMatrix Y = new YMatrix(100, sCNList, lines, terminal, bVoltList, powtrafo, powtrafoEnd);
 			ComplexNumber[][] solution=Y.getY();
+			
+			// Database creation
+			SQLdatabase Database = new SQLdatabase(breakerList, bVoltList, subList, voltLvlList, synMach, genUnit,
+					regControl, powtrafo, powtrafoEnd, energCons, ratiotap);			
+									
 			System.out.println("End");
+						
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -12,9 +12,9 @@ public class SynchronousMachine extends CIM {
 		this.p = Double.parseDouble(extractTag(nodeSSH, "cim:RotatingMachine.p"));
 		this.q = Double.parseDouble(extractTag(nodeSSH, "cim:RotatingMachine.q"));
 		this.ratedS = Double.parseDouble(extractTag(nodeEQ, "cim:RotatingMachine.ratedS"));
-		this.genUnit = extractAttFromTag(nodeEQ, "cim:RotatingMachine.GeneratingUnit", "rdf:resource");
-		this.regControl = extractAttFromTag(nodeEQ, "cim:RegulatingCondEq.RegulatingControl", "rdf:resource");
-		this.equipmentContainer = extractAttFromTag(nodeEQ, "cim:Equipment.EquipmentContainer", "rdf:resource");
+		this.genUnit = extractAttFromTag(nodeEQ, "cim:RotatingMachine.GeneratingUnit", "rdf:resource").substring(1);
+		this.regControl = extractAttFromTag(nodeEQ, "cim:RegulatingCondEq.RegulatingControl", "rdf:resource").substring(1);
+		this.equipmentContainer = extractAttFromTag(nodeEQ, "cim:Equipment.EquipmentContainer", "rdf:resource").substring(1);
 	}
 
 	public String getGenUnit() {

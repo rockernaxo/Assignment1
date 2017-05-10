@@ -8,8 +8,8 @@ public class VoltageLevel extends CIM {
 
 	public VoltageLevel(Node node) {
 		super(node);
-		this.substation = extractAttFromTag(node, "cim:VoltageLevel.Substation", "rdf:resource");
-		this.baseVoltage = extractAttFromTag(node, "cim:VoltageLevel.BaseVoltage", "rdf:resource");
+		this.substation = extractAttFromTag(node, "cim:VoltageLevel.Substation", "rdf:resource").substring(1);
+		this.baseVoltage = extractAttFromTag(node, "cim:VoltageLevel.BaseVoltage", "rdf:resource").substring(1);
 	}
 
 	public String getSubstation() {

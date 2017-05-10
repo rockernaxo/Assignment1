@@ -9,8 +9,8 @@ public class PowerTransformerEnd extends CIM {
 		this.x=Double.parseDouble(extractTag(node, "cim:PowerTransformerEnd.x"));
 		this.b=Double.parseDouble(extractTag(node, "cim:PowerTransformerEnd.b"));
 		this.g=Double.parseDouble(extractTag(node, "cim:PowerTransformerEnd.g"));			
-		this.baseVoltage = extractAttFromTag(node, "cim:TransformerEnd.BaseVoltage", "rdf:resource");
-		this.powerTransformer = extractAttFromTag(node, "cim:PowerTransformerEnd.PowerTransformer", "rdf:resource");
+		this.baseVoltage = extractAttFromTag(node, "cim:TransformerEnd.BaseVoltage", "rdf:resource").substring(1);
+		this.powerTransformer = extractAttFromTag(node, "cim:PowerTransformerEnd.PowerTransformer", "rdf:resource").substring(1);
 	}
 	public double getB() {
 		return b;
@@ -19,11 +19,11 @@ public class PowerTransformerEnd extends CIM {
 		return g;
 	}
 	public String getBaseVoltage() {
-		return this.baseVoltage.substring(1);
+		return this.baseVoltage;
 	}
 	
 	public String getPowerTransformer() {
-		return this.powerTransformer.substring(1);
+		return this.powerTransformer;
 	}
 	
 	public double getR() {

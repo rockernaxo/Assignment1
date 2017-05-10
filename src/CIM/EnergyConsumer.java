@@ -7,7 +7,7 @@ public class EnergyConsumer extends CIM{
 		super(nodeEQ);
 		this.p = Double.parseDouble(extractTag(nodeSSH, "cim:EnergyConsumer.p"));
 		this.q = Double.parseDouble(extractTag(nodeSSH, "cim:EnergyConsumer.q"));
-		this.equipmentContainer = extractAttFromTag(nodeEQ, "cim:Equipment.EquipmentContainer", "rdf:resource");
+		this.equipmentContainer = extractAttFromTag(nodeEQ, "cim:Equipment.EquipmentContainer", "rdf:resource").substring(1);
 	}
 	public double getP() {
 		return p;

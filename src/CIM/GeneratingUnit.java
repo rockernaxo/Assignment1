@@ -11,7 +11,7 @@ public class GeneratingUnit extends CIM {
 		super(node);
 		this.Pmax = Double.parseDouble(extractTag(node, "cim:GeneratingUnit.maxOperatingP"));
 		this.Pmin = Double.parseDouble(extractTag(node, "cim:GeneratingUnit.minOperatingP"));
-		this.equipmentContainer = extractAttFromTag(node, "cim:Equipment.EquipmentContainer", "rdf:resource");
+		this.equipmentContainer = extractAttFromTag(node, "cim:Equipment.EquipmentContainer", "rdf:resource").substring(1);
 	}
 
 	public double getPmax() {

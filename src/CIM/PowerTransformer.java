@@ -8,7 +8,7 @@ public class PowerTransformer extends CIM {
 
 	public PowerTransformer(Node node) {
 		super(node);
-		this.equipmentContainer = extractAttFromTag(node, "cim:Equipment.EquipmentContainer", "rdf:resource");
+		this.equipmentContainer = extractAttFromTag(node, "cim:Equipment.EquipmentContainer", "rdf:resource").substring(1);
 	}
 
 	public String getEquipmentContainer() {

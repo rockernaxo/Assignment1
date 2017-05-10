@@ -9,7 +9,7 @@ public class Substation extends CIM {
 	public Substation(Node node) {
 		super(node);
 		this.name = extractTag(node, "cim:IdentifiedObject.name");
-		this.region = extractAttFromTag(node, "cim:Substation.Region", "rdf:resource");
+		this.region = extractAttFromTag(node, "cim:Substation.Region", "rdf:resource").substring(1);
 	}
 
 	public String getRegion() {
