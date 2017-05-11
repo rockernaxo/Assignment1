@@ -203,44 +203,22 @@ public class ComplexNumber {
         return Math.sqrt(Math.pow(this.real,2) + Math.pow(this.imaginary,2));
     }
 
-    /**
-    * The square of the current complex number.
-    * @return a <code>ComplexNumber</code> which is the square of the current complex number.
-    */
-
-    public ComplexNumber square()
-    {
-        double _real = this.real*this.real - this.imaginary*this.imaginary;
-        double _imaginary = 2*this.real*this.imaginary;
-        return new ComplexNumber(_real,_imaginary);
-    }
+   
     /**
     * @return the complex number in x + yi format
     */
     @Override
     public String toString()
     {
-        String re = this.real+"";
+    	double real=Math.round(this.real*1000.0)/1000.0;
+    	double imaginary=Math.round(this.imaginary*1000.0)/1000.0;
+        String re = real+"";
         String im = "";
-        if(this.imaginary < 0)
-            im = this.imaginary+"i";
+        if(imaginary < 0)
+            im = imaginary+"i";
         else
-            im = "+"+this.imaginary+"i";
+            im = "+"+imaginary+"i";
         return re+im;
-    }
-    /**
-    * Calculates the exponential of the <code>ComplexNumber</code>
-    * @param z The input complex number
-    * @return a <code>ComplexNumber</code> which is e^(input z)
-    */
-    public static ComplexNumber exp(ComplexNumber z)
-    {
-        double a = z.real;
-        double b = z.imaginary;
-        double r = Math.exp(a);
-        a = r*Math.cos(b);
-        b = r*Math.sin(b);
-        return new ComplexNumber(a,b);
     }
     /**
     * Calculates the <code>ComplexNumber</code> to the passed integer power.
@@ -259,68 +237,7 @@ public class ComplexNumber {
         }
         return output;
     }
-    /**
-    * Calculates the sine of the <code>ComplexNumber</code>
-    * @param z the input complex number
-    * @return a <code>ComplexNumber</code> which is the sine of z.
-    */
-    public static ComplexNumber sin(ComplexNumber z)
-    {
-        double x = Math.exp(z.imaginary);
-        double x_inv = 1/x;
-        double r = Math.sin(z.real) * (x + x_inv)/2;
-        double i = Math.cos(z.real) * (x - x_inv)/2;
-        return new ComplexNumber(r,i);
-    }
-    /**
-    * Calculates the cosine of the <code>ComplexNumber</code>
-    * @param z the input complex number
-    * @return a <code>ComplexNumber</code> which is the cosine of z.
-    */
-    public static ComplexNumber cos(ComplexNumber z)
-    {
-        double x = Math.exp(z.imaginary);
-        double x_inv = 1/x;
-        double r = Math.cos(z.real) * (x + x_inv)/2;
-        double i = -Math.sin(z.real) * (x - x_inv)/2;
-        return new ComplexNumber(r,i);
-    }
-    /**
-    * Calculates the tangent of the <code>ComplexNumber</code>
-    * @param z the input complex number
-    * @return a <code>ComplexNumber</code> which is the tangent of z.
-    */
-    public static ComplexNumber tan(ComplexNumber z)
-    {
-        return divide(sin(z),cos(z));
-    }
-    /**
-    * Calculates the co-tangent of the <code>ComplexNumber</code>
-    * @param z the input complex number
-    * @return a <code>ComplexNumber</code> which is the co-tangent of z.
-    */
-    public static ComplexNumber cot(ComplexNumber z)
-    {
-        return divide(new ComplexNumber(1,0),tan(z));
-    }
-    /**
-    * Calculates the secant of the <code>ComplexNumber</code>
-    * @param z the input complex number
-    * @return a <code>ComplexNumber</code> which is the secant of z.
-    */
-    public static ComplexNumber sec(ComplexNumber z)
-    {
-        return divide(new ComplexNumber(1,0),cos(z));
-    }
-    /**
-    * Calculates the co-secant of the <code>ComplexNumber</code>
-    * @param z the input complex number
-    * @return a <code>ComplexNumber</code> which is the co-secant of z.
-    */
-    public static ComplexNumber cosec(ComplexNumber z)
-    {
-        return divide(new ComplexNumber(1,0),sin(z));
-    }
+    
     /**
     * The real part of <code>ComplexNumber</code>
     * @return the real part of the complex number
@@ -345,91 +262,6 @@ public class ComplexNumber {
     {
         return Math.atan2(imaginary,real);
     }
-    /**
-    * Parses the <code>String</code> as a <code>ComplexNumber</code> of type x+yi.
-    * @param s the input complex number as string
-    * @return a <code>ComplexNumber</code> which is represented by the string.
-    */
-    public static ComplexNumber parseComplex(String s)
-    {
-        s = s.replaceAll(" ","");
-        ComplexNumber parsed = null;
-        if(s.contains(String.valueOf("+")) || (s.contains(String.valueOf("-")) && s.lastIndexOf('-') > 0))
-        {
-            String re = "";
-            String im = "";
-            s = s.replaceAll("i","");
-            s = s.replaceAll("I","");
-            if(s.indexOf('+') > 0)
-            {
-                re = s.substring(0,s.indexOf('+'));
-                im = s.substring(s.indexOf('+')+1,s.length());
-                parsed = new ComplexNumber(Double.parseDouble(re),Double.parseDouble(im));
-            }
-            else if(s.lastIndexOf('-') > 0)
-            {
-                re = s.substring(0,s.lastIndexOf('-'));
-                im = s.substring(s.lastIndexOf('-')+1,s.length());
-                parsed = new ComplexNumber(Double.parseDouble(re),-Double.parseDouble(im));
-            }
-        }
-        else
-        {
-            // Pure imaginary number
-            if(s.endsWith("i") || s.endsWith("I"))
-            {
-                s = s.replaceAll("i","");
-                s = s.replaceAll("I","");
-                parsed = new ComplexNumber(0, Double.parseDouble(s));
-            }
-            // Pure real number
-            else
-            {
-                parsed = new ComplexNumber(Double.parseDouble(s),0);
-            }
-        }
-        return parsed;
-    }
-    /**
-    * Checks if the passed <code>ComplexNumber</code> is equal to the current.
-    * @param z the complex number to be checked
-    * @return true if they are equal, false otherwise
-    */
-    @Override
-    public final boolean equals(Object z) 
-    {
-        if (!(z instanceof ComplexNumber))
-            return false;
-        ComplexNumber a = (ComplexNumber) z;
-        return (real == a.real) && (imaginary == a.imaginary);
-    }
-    /**
-    * The inverse/reciprocal of the complex number.
-    * @return the reciprocal of current complex number.
-    */
-    public ComplexNumber inverse()
-    {
-        return divide(new ComplexNumber(1,0),this);
-    }
-    /**
-    * Formats the Complex number as x+yi or r.cis(theta)
-    * @param format_id the format ID <code>ComplexNumber.XY</code> or <code>ComplexNumber.RCIS</code>.
-    * @return a string representation of the complex number
-    * @throws IllegalArgumentException if the format_id does not match.
-    */
-    public String format(int format_id) throws IllegalArgumentException
-    {
-        String out = "";
-        if(format_id == XY)
-            out = toString();
-        else if(format_id == RCIS)
-        {
-            out = mod()+" cis("+getArg()+")";
-        }
-        else
-        {
-            throw new IllegalArgumentException("Unknown Complex Number format.");
-        }
-        return out;
-    }
+    
+   
 }

@@ -66,40 +66,30 @@ public class Gui extends JFrame{
 
         JMenuItem menuEQ = new JMenuItem("Upload EQ File");
         JMenuItem menuSSH = new JMenuItem("Upload SSH File");
-        JMenuItem menuDef = new JMenuItem("Default");
-        JMenuItem menuDef2 = new JMenuItem("Default2");
         JMenuItem menuCal = new JMenuItem("Calculate Y Matrix");
         menuEQ.setToolTipText("Only CIM-XML files are suppported");
         menuSSH.setToolTipText("Only CIM-XML files are suppported");
         menuSSH.setEnabled(false);
         menuCal.setToolTipText("Computes the Y matrix using an innovative method");
         menuCal.setEnabled(false);
-        menuDef.addActionListener((ActionEvent event) -> {
-        	this.fileEQ=new File ("Assignment_EQ_reduced.xml");
-        	this.fileSSH=new File ("Assignment_SSH_reduced.xml");
-        	menuCal.setEnabled(true);
-        });
-        menuDef2.addActionListener((ActionEvent event) -> {
-        	this.fileEQ=new File ("Assignment_EQ_reduced.xml");
-        	this.fileSSH=new File ("Assignment_SSH_reduced_2.xml");
-        	menuCal.setEnabled(true);
-        });
+
         menuEQ.addActionListener((ActionEvent event) -> {
         	this.fileEQ = selectFile();
         	if (this.fileEQ==null) {
-        		this.fileEQ=new File ("Assignment_EQ_reduced.xml");
-        		JOptionPane.showMessageDialog(null, "The default file has been loaded");
-        	}
+        		JOptionPane.showMessageDialog(null, "You need to load a valid CIM file");
+        	}else{
         	menuSSH.setEnabled(true);
+        	}
         });
         
         menuSSH.addActionListener((ActionEvent event) -> {
         	this.fileSSH = selectFile();
         	if (this.fileSSH==null) {
-        		this.fileSSH=new File ("Assignment_SSH_reduced.xml");
-        		JOptionPane.showMessageDialog(null, "The default file has been loaded");
+        		JOptionPane.showMessageDialog(null, "You need to load a valid CIM file");
         	}
+        	else{
         	menuCal.setEnabled(true);
+        	}
         });
         
         menuCal.addActionListener((ActionEvent event) -> {
@@ -110,7 +100,7 @@ public class Gui extends JFrame{
         	String[] a = new String[solution.length];
         	for (int i=0; i< solution.length; i++) {
         		a[i] = String.valueOf(i);
-        		for (int j=0; j< solution[i].length; j++){
+        		for (int j=0; j< solution[i].length; j++){        			
         			data[i][j]=solution[i][j].toString();
         		}
         	}
@@ -127,8 +117,6 @@ public class Gui extends JFrame{
         });
 
         file.add(menuEQ);
-        file.add(menuDef);
-        file.add(menuDef2);
         file.add(menuSSH);
         file.add(menuCal);
 
