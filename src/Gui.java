@@ -6,6 +6,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import CIM.ComplexNumber;
 import CIM.SuperConnectivityNode;
 
+import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.GroupLayout;
@@ -48,7 +49,11 @@ public class Gui extends JFrame{
 		// Make sure the program exits when the frame closes
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("Assignment 1 - Y matrix calculation");
-        setSize(700,500);
+        setSize(700,600);
+        
+        setLayout(new BorderLayout());
+        JLabel arnold = new JLabel(new ImageIcon("Default\\KTH.png"));
+        add(arnold);
       
         //This will center the JFrame in the middle of the screen
         setLocationRelativeTo(null);
