@@ -24,6 +24,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.File;
@@ -52,7 +53,7 @@ public class Gui extends JFrame{
         setSize(700,600);
         
         setLayout(new BorderLayout());
-        JLabel arnold = new JLabel(new ImageIcon("Default\\KTH.png"));
+        JLabel arnold = new JLabel(new ImageIcon(Toolkit.getDefaultToolkit().getImage(getClass().getResource("KTH.png"))));
         add(arnold);
       
         //This will center the JFrame in the middle of the screen
