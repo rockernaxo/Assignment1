@@ -61,11 +61,9 @@ public class SQLdatabase {
      sql = "DROP DATABASE IF EXISTS SystemDatabase";
      stmt.executeUpdate(sql);
 	 stmt = conn.createStatement();
-	 sql = "CREATE DATABASE IF NOT EXISTS SystemDatabase"; // create database Students
+	 sql = "CREATE DATABASE IF NOT EXISTS SystemDatabase"; 
 	 stmt.executeUpdate(sql);
-	 System.out.println("Database created successfully...");
-
-	 // Connect to the created database systemdatabase and create table breaker
+	 System.out.println("Database created successfully...");	
 	 conn = DriverManager.getConnection(DB_URL + "SystemDatabase"+DISABLE_SSL, USER, PASS);
 	 sql = "USE SystemDatabase";
 	 stmt.executeUpdate(sql);
@@ -272,30 +270,8 @@ public class SQLdatabase {
 			 preparedStmt.setString(7,synMach.get(i).getRegControl());
 			 preparedStmt.setString(8,synMach.get(i).getEquipmentContainer());
 			 preparedStmt.executeUpdate();			 
-			}
-		 
-	 //System.out.println(voltLvlList.get(1).getSubstation());
-	// System.out.println(subList.get(1).getRdfID());
-
-	 /*// create the java mysql update preparedstatement
-	 String query = "update Breakers SET status=? WHERE ID=?"; // update status of Breaker, id=103
-	 PreparedStatement preparedStmt = conn.prepareStatement(query);
-	 preparedStmt.setString(1, "Close");
-	 preparedStmt.setInt(2, 103);
-	 // execute PreparedStatement
-	 preparedStmt.executeUpdate();
-	 // insert a new values to the table with preparedstatement
-	 query = "insert into Breakers values(?, ?, ?, ?)";
-	 preparedStmt = conn.prepareStatement(query);
-	 preparedStmt.setInt(1, 104);
-	 preparedStmt.setString(2, "A");
-	 preparedStmt.setInt(3, 30);
-	 preparedStmt.setString(4, "Open");
-	 preparedStmt.executeUpdate();
-	 // finish the statement
-	 System.out.println("The table is updated...");
-	 conn.close();
-	 */
+			}	 
+	
 
 	 }catch(SQLException se){
 	 //Handle errors for JDBC
