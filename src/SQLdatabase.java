@@ -1,18 +1,19 @@
-package CIM;
 import java.sql.*;
 import java.util.ArrayList;
+
+import CIM.*;
 
 
 public class SQLdatabase {
 
 	// JDBC driver name and database URL
-	 static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-	 static final String DB_URL = "jdbc:mysql://localhost/";
-	 static final String DISABLE_SSL = "?useSSL=false";
+	 private static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+	 private static final String DB_URL = "jdbc:mysql://localhost/";
+	 private static final String DISABLE_SSL = "?useSSL=false";
 	 // Database credentials
-	 static final String USER = "root";
-	 static final String PASS = "root"; // insert the password to SQL server
-	 String sql = null;
+	 private static final String USER = "root";
+	 private static final String PASS = "root"; // insert the password to SQL server
+	 private String sql = null;
 	 
 	 private ArrayList<CircuitBreaker> breakerList;
 	 private ArrayList<BaseVoltage> bVoltList;

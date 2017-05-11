@@ -93,27 +93,30 @@ public class YMatrix {
 				}
 			}
 			
-			// Get the base impedance of that element
-			for (int k = 0; k < this.bVoltList.size(); k++) {
-				if (iteration.get(i).getBaseVoltage().equals(this.bVoltList.get(k).getRdfID())){
-					 zBase= Math.pow(this.bVoltList.get(k).getNominalValue(),2)/this.sBase;					 				 
+			if (CN1!=-1 && CN2!=-1) {
+			
+				// Get the base impedance of that element
+				for (int k = 0; k < this.bVoltList.size(); k++) {
+					if (iteration.get(i).getBaseVoltage().equals(this.bVoltList.get(k).getRdfID())){
+						 zBase= Math.pow(this.bVoltList.get(k).getNominalValue(),2)/this.sBase;					 				 
+					}
 				}
+				
+				// Add the elements to the Y matrix
+				// Pi model is used
+				// Get the impendance of the element
+				ComplexNumber busImp=new ComplexNumber(iteration.get(i).getR()/zBase, iteration.get(i).getX()/zBase );
+				// Get the inverse 
+				busImp.inv();
+				// Get the admittance of the element from the susceptance and conductance
+				ComplexNumber y=new ComplexNumber(iteration.get(i).getG()*zBase, iteration.get(i).getB()*zBase );
+				// Only half of the admittance belongs to the bus
+				y.divide(new ComplexNumber(2,1));			
+				// Combine both into a complex number (admittance)
+				ComplexNumber busAd=ComplexNumber.add(busImp,y);
+				
+				addToMatrix(busAd, busImp, CN1, CN2);
 			}
-			
-			// Add the elements to the Y matrix
-			// Pi model is used
-			// Get the impendance of the element
-			ComplexNumber busImp=new ComplexNumber(iteration.get(i).getR()/zBase, iteration.get(i).getX()/zBase );
-			// Get the inverse 
-			busImp.inv();
-			// Get the admittance of the element from the susceptance and conductance
-			ComplexNumber y=new ComplexNumber(iteration.get(i).getG()*zBase, iteration.get(i).getB()*zBase );
-			// Only half of the admittance belongs to the bus
-			y.divide(new ComplexNumber(2,1));			
-			// Combine both into a complex number (admittance)
-			ComplexNumber busAd=ComplexNumber.add(busImp,y);
-			
-			addToMatrix(busAd, busImp, CN1, CN2);
 		}
 	}
 	
@@ -124,8 +127,8 @@ public class YMatrix {
 		this.Y[CN2][CN2].addTo(busAd);
 		// Non-diagonal elements will be negative
 		busImp.neg();
-		this.Y[CN1][CN2]=busImp;
-		this.Y[CN2][CN1]=busImp;
+		this.Y[CN1][CN2].addTo(busImp);
+		this.Y[CN2][CN1].addTo(busImp);
 	}
 	
 	public ComplexNumber[][] getY() {

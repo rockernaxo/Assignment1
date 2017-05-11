@@ -12,55 +12,59 @@ import org.w3c.dom.NodeList;
 import CIM.*;
 
 public class ReadCIMXML {
+	
+	private final String[] tags = { "cim:Breaker", "cim:BaseVoltage", "cim:VoltageLevel", "cim:Substation",
+			"cim:SynchronousMachine", "cim:GeneratingUnit", "cim:RegulatingControl", "cim:PowerTransformer",
+			"cim:PowerTransformerEnd", "cim:EnergyConsumer", "cim:RatioTapChanger", "cim:ACLineSegment",
+			"cim:Terminal", "cim:BusbarSection", "cim:ConnectivityNode" };
+	private ArrayList<NodeList> container, containerSSH;
+	private ArrayList<CircuitBreaker> breakerList;
+	private ArrayList<BaseVoltage> bVoltList;
+	private ArrayList<Terminal> terminal;
+	private ArrayList<ConnectivityNode> connectivityNode;
+	private ArrayList<PowerTransformerEnd> powtrafoEnd;
+	private ArrayList<Lines> lines;
+	private ArrayList<PowerTransformer> powtrafo;
 
-	public static void main(String[] args) {
+	// At the moment, the objects will be stored in arrayList, but later
+			// they should be sent to the database.
+	ArrayList<Substation> subList = new ArrayList<Substation>();
+	ArrayList<VoltageLevel> voltLvlList = new ArrayList<VoltageLevel>();
+	ArrayList<SynchronousMachine> synMach = new ArrayList<SynchronousMachine>();
+	ArrayList<GeneratingUnit> genUnit = new ArrayList<GeneratingUnit>();
+	ArrayList<RegulatingControl> regControl = new ArrayList<RegulatingControl>();
+	ArrayList<EnergyConsumer> energCons = new ArrayList<EnergyConsumer>();
+	ArrayList<RatioTapChanger> ratiotap = new ArrayList<RatioTapChanger>();
+	ArrayList<BusbarSection> busbarSection = new ArrayList<BusbarSection>();
 
-		String[] tags = { "cim:Breaker", "cim:BaseVoltage", "cim:VoltageLevel", "cim:Substation",
-				"cim:SynchronousMachine", "cim:GeneratingUnit", "cim:RegulatingControl", "cim:PowerTransformer",
-				"cim:PowerTransformerEnd", "cim:EnergyConsumer", "cim:RatioTapChanger", "cim:ACLineSegment",
-				"cim:Terminal", "cim:BusbarSection", "cim:ConnectivityNode" };
+	
+	public ReadCIMXML(File fileEQ, File fileSSH) {
+		this.container= new ArrayList<NodeList>();
+		this.containerSSH= new ArrayList<NodeList>();
+		this.bVoltList = new ArrayList<BaseVoltage>();
+		this.breakerList = new ArrayList<CircuitBreaker>();
+		this.terminal = new ArrayList<Terminal>();
+		this.connectivityNode = new ArrayList<ConnectivityNode>();
+		this.lines = new ArrayList<Lines>();
+		this.powtrafo = new ArrayList<PowerTransformer>();
+		this.powtrafoEnd = new ArrayList<PowerTransformerEnd>();
+		
+		processXML(fileEQ, fileSSH);
+	}
 
-		ArrayList<NodeList> container = new ArrayList<NodeList>();
-		ArrayList<NodeList> containerSSH = new ArrayList<NodeList>();
-
-		// At the moment, the objects will be stored in arrayList, but later
-		// they should be sent to the database.
-		ArrayList<CircuitBreaker> breakerList = new ArrayList<CircuitBreaker>();
-		ArrayList<BaseVoltage> bVoltList = new ArrayList<BaseVoltage>();
-		ArrayList<Substation> subList = new ArrayList<Substation>();
-		ArrayList<VoltageLevel> voltLvlList = new ArrayList<VoltageLevel>();
-		ArrayList<SynchronousMachine> synMach = new ArrayList<SynchronousMachine>();
-		ArrayList<GeneratingUnit> genUnit = new ArrayList<GeneratingUnit>();
-		ArrayList<RegulatingControl> regControl = new ArrayList<RegulatingControl>();
-		ArrayList<PowerTransformer> powtrafo = new ArrayList<PowerTransformer>();
-		ArrayList<PowerTransformerEnd> powtrafoEnd = new ArrayList<PowerTransformerEnd>();
-		ArrayList<EnergyConsumer> energCons = new ArrayList<EnergyConsumer>();
-		ArrayList<RatioTapChanger> ratiotap = new ArrayList<RatioTapChanger>();
-		ArrayList<Lines> lines = new ArrayList<Lines>();
-		ArrayList<Terminal> terminal = new ArrayList<Terminal>();
-		ArrayList<BusbarSection> busbarSection = new ArrayList<BusbarSection>();
-		ArrayList<ConnectivityNode> connectivityNode = new ArrayList<ConnectivityNode>();
-
+	private void processXML(File fileEQ, File fileSSH){
 		try {
-
-			// Importing the XML EQ and SSH files
-			//File SSHFile = new File("MicroGridTestConfiguration_T1_BE_SSH_V2.xml");
-			 //File EQFile = new File("MicroGridTestConfiguration_T1_BE_EQ_V2.xml");
-
-			// Archivo pequeño
-			File SSHFile = new File("Assignment_SSH_reduced.xml");
-			File EQFile = new File("Assignment_EQ_reduced.xml");
-
+			
 			// Create and initiate the XML parser
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-			Document docEQ = dBuilder.parse(EQFile);
-			Document docSSH = dBuilder.parse(SSHFile);
-
+			Document docEQ = dBuilder.parse(fileEQ);
+			Document docSSH = dBuilder.parse(fileSSH);
+		
 			// Normalize the CIM XML File
 			docEQ.getDocumentElement().normalize();
 			docSSH.getDocumentElement().normalize();
-
+		
 			// Add all NodeLists from the XML file into an array
 			containerSSH.add(docSSH.getElementsByTagName("cim:Breaker"));
 			containerSSH.add(docSSH.getElementsByTagName("cim:SynchronousMachine"));
@@ -70,9 +74,9 @@ public class ReadCIMXML {
 			for (int i = 0; i < tags.length; i++) {
 				container.add(docEQ.getElementsByTagName(tags[i]));
 			}
-
+		
 			for (int i = 0; i < container.size(); i++) {
-
+		
 				for (int j = 0; j < container.get(i).getLength(); j++) {
 					// Add a new object to the ArrayList
 					String selec = container.get(i).item(j).getNodeName();
@@ -125,24 +129,37 @@ public class ReadCIMXML {
 					}
 				}
 			}
-
-			// Call to the topology processor
-			TopologyProcessor tp= new TopologyProcessor(connectivityNode, terminal, breakerList);
-			ArrayList<SuperConnectivityNode> sCNList =tp.getsCNList();
-			
-			// Y matrix calculation
-			YMatrix Y = new YMatrix(100, sCNList, lines, terminal, bVoltList, powtrafo, powtrafoEnd);
-			ComplexNumber[][] solution=Y.getY();
-			
-			// Database creation
-			SQLdatabase Database = new SQLdatabase(breakerList, bVoltList, subList, voltLvlList, synMach, genUnit,
-					regControl, powtrafo, powtrafoEnd, energCons, ratiotap);			
-									
-			System.out.println("End");
-						
 		} catch (Exception e) {
-			e.printStackTrace();
+			
 		}
+	}
+
+	public ArrayList<CircuitBreaker> getBreakerList() {
+		return breakerList;
+	}
+
+	public ArrayList<BaseVoltage> getbVoltList() {
+		return bVoltList;
+	}
+
+	public ArrayList<Terminal> getTerminal() {
+		return terminal;
+	}
+
+	public ArrayList<ConnectivityNode> getConnectivityNode() {
+		return connectivityNode;
+	}
+
+	public ArrayList<PowerTransformerEnd> getPowtrafoEnd() {
+		return powtrafoEnd;
+	}
+
+	public ArrayList<Lines> getLines() {
+		return lines;
+	}
+
+	public ArrayList<PowerTransformer> getPowtrafo() {
+		return powtrafo;
 	}
 	
 }

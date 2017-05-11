@@ -70,8 +70,10 @@ public class TopologyProcessor {
 							// The second is found and the SCN can be
 							// created
 							terminalList.addAll(this.connectNode.get(j));
-							this.sCNList.add(new SuperConnectivityNode(this.connectNode.get(firstCN).get(0).getConnectNode(),
+							if(!this.breakerList.get(i).isState()) {
+								this.sCNList.add(new SuperConnectivityNode(this.connectNode.get(firstCN).get(0).getConnectNode(),
 									this.connectNode.get(j).get(k).getConnectNode(), terminalList));
+							}
 						}
 					}
 				}
