@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class SuperTrafo implements PiModel{
 	
 	private PowerTransformerEnd trafoEnd1;
-	String rdfID;
+	private String rdfID;
 
 	public SuperTrafo(PowerTransformer trafo, ArrayList<PowerTransformerEnd> powtrafoEnd) {
 		this.rdfID = trafo.getRdfID();

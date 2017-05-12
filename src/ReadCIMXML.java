@@ -129,7 +129,7 @@ public class ReadCIMXML {
 				}
 			}
 		} catch (Exception e) {
-
+			e.printStackTrace();
 		}
 	}
 
