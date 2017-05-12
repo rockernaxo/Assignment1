@@ -12,11 +12,11 @@ import org.w3c.dom.NodeList;
 import CIM.*;
 
 public class ReadCIMXML {
-	
+
 	private final String[] tags = { "cim:Breaker", "cim:BaseVoltage", "cim:VoltageLevel", "cim:Substation",
 			"cim:SynchronousMachine", "cim:GeneratingUnit", "cim:RegulatingControl", "cim:PowerTransformer",
-			"cim:PowerTransformerEnd", "cim:EnergyConsumer", "cim:RatioTapChanger", "cim:ACLineSegment",
-			"cim:Terminal", "cim:BusbarSection", "cim:ConnectivityNode" };
+			"cim:PowerTransformerEnd", "cim:EnergyConsumer", "cim:RatioTapChanger", "cim:ACLineSegment", "cim:Terminal",
+			"cim:BusbarSection", "cim:ConnectivityNode" };
 	private ArrayList<NodeList> container, containerSSH;
 	private ArrayList<CircuitBreaker> breakerList;
 	private ArrayList<BaseVoltage> bVoltList;
@@ -27,7 +27,7 @@ public class ReadCIMXML {
 	private ArrayList<PowerTransformer> powtrafo;
 
 	// At the moment, the objects will be stored in arrayList, but later
-			// they should be sent to the database.
+	// they should be sent to the database.
 	ArrayList<Substation> subList = new ArrayList<Substation>();
 	ArrayList<VoltageLevel> voltLvlList = new ArrayList<VoltageLevel>();
 	ArrayList<SynchronousMachine> synMach = new ArrayList<SynchronousMachine>();
@@ -37,10 +37,9 @@ public class ReadCIMXML {
 	ArrayList<RatioTapChanger> ratiotap = new ArrayList<RatioTapChanger>();
 	ArrayList<BusbarSection> busbarSection = new ArrayList<BusbarSection>();
 
-	
 	public ReadCIMXML(File fileEQ, File fileSSH) {
-		this.container= new ArrayList<NodeList>();
-		this.containerSSH= new ArrayList<NodeList>();
+		this.container = new ArrayList<NodeList>();
+		this.containerSSH = new ArrayList<NodeList>();
 		this.bVoltList = new ArrayList<BaseVoltage>();
 		this.breakerList = new ArrayList<CircuitBreaker>();
 		this.terminal = new ArrayList<Terminal>();
@@ -48,23 +47,23 @@ public class ReadCIMXML {
 		this.lines = new ArrayList<Lines>();
 		this.powtrafo = new ArrayList<PowerTransformer>();
 		this.powtrafoEnd = new ArrayList<PowerTransformerEnd>();
-		
+
 		processXML(fileEQ, fileSSH);
 	}
 
-	private void processXML(File fileEQ, File fileSSH){
+	private void processXML(File fileEQ, File fileSSH) {
 		try {
-			
+
 			// Create and initiate the XML parser
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 			Document docEQ = dBuilder.parse(fileEQ);
 			Document docSSH = dBuilder.parse(fileSSH);
-		
+
 			// Normalize the CIM XML File
 			docEQ.getDocumentElement().normalize();
 			docSSH.getDocumentElement().normalize();
-		
+
 			// Add all NodeLists from the XML file into an array
 			containerSSH.add(docSSH.getElementsByTagName("cim:Breaker"));
 			containerSSH.add(docSSH.getElementsByTagName("cim:SynchronousMachine"));
@@ -74,63 +73,63 @@ public class ReadCIMXML {
 			for (int i = 0; i < tags.length; i++) {
 				container.add(docEQ.getElementsByTagName(tags[i]));
 			}
-		
-			for (int i = 0; i < container.size(); i++) {
-		
-				for (int j = 0; j < container.get(i).getLength(); j++) {
+
+			for (NodeList nodeList : container) {
+
+				for (int j = 0; j < nodeList.getLength(); j++) {
 					// Add a new object to the ArrayList
-					String selec = container.get(i).item(j).getNodeName();
+					String selec = nodeList.item(j).getNodeName();
 					switch (selec) {
 					case "cim:Breaker":
-						breakerList.add(new CircuitBreaker(container.get(i).item(j), containerSSH.get(0).item(j)));
+						breakerList.add(new CircuitBreaker(nodeList.item(j), containerSSH.get(0).item(j)));
 						break;
 					case "cim:BaseVoltage":
-						bVoltList.add(new BaseVoltage(container.get(i).item(j)));
+						bVoltList.add(new BaseVoltage(nodeList.item(j)));
 						break;
 					case "cim:Substation":
-						subList.add(new Substation(container.get(i).item(j)));
+						subList.add(new Substation(nodeList.item(j)));
 						break;
 					case "cim:VoltageLevel":
-						voltLvlList.add(new VoltageLevel(container.get(i).item(j)));
+						voltLvlList.add(new VoltageLevel(nodeList.item(j)));
 						break;
 					case "cim:SynchronousMachine":
-						synMach.add(new SynchronousMachine(container.get(i).item(j), containerSSH.get(1).item(j)));
+						synMach.add(new SynchronousMachine(nodeList.item(j), containerSSH.get(1).item(j)));
 						break;
 					case "cim:GeneratingUnit":
-						genUnit.add(new GeneratingUnit(container.get(i).item(j)));
+						genUnit.add(new GeneratingUnit(nodeList.item(j)));
 						break;
 					case "cim:RegulatingControl":
-						regControl.add(new RegulatingControl(container.get(i).item(j), containerSSH.get(2).item(j)));
+						regControl.add(new RegulatingControl(nodeList.item(j), containerSSH.get(2).item(j)));
 						break;
 					case "cim:PowerTransformer":
-						powtrafo.add(new PowerTransformer(container.get(i).item(j)));
+						powtrafo.add(new PowerTransformer(nodeList.item(j)));
 						break;
 					case "cim:PowerTransformerEnd":
-						powtrafoEnd.add(new PowerTransformerEnd(container.get(i).item(j)));
+						powtrafoEnd.add(new PowerTransformerEnd(nodeList.item(j)));
 						break;
 					case "cim:EnergyConsumer":
-						energCons.add(new EnergyConsumer(container.get(i).item(j), containerSSH.get(3).item(j)));
+						energCons.add(new EnergyConsumer(nodeList.item(j), containerSSH.get(3).item(j)));
 						break;
 					case "cim:RatioTapChanger":
-						ratiotap.add(new RatioTapChanger(container.get(i).item(j), containerSSH.get(4).item(j)));
+						ratiotap.add(new RatioTapChanger(nodeList.item(j), containerSSH.get(4).item(j)));
 						break;
 					case "cim:ACLineSegment":
-						lines.add(new Lines(container.get(i).item(j)));
+						lines.add(new Lines(nodeList.item(j)));
 						break;
 					case "cim:Terminal":
-						terminal.add(new Terminal(container.get(i).item(j)));
+						terminal.add(new Terminal(nodeList.item(j)));
 						break;
 					case "cim:BusbarSection":
-						busbarSection.add(new BusbarSection(container.get(i).item(j)));
+						busbarSection.add(new BusbarSection(nodeList.item(j)));
 						break;
 					case "cim:ConnectivityNode":
-						connectivityNode.add(new ConnectivityNode(container.get(i).item(j)));
+						connectivityNode.add(new ConnectivityNode(nodeList.item(j)));
 						break;
 					}
 				}
 			}
 		} catch (Exception e) {
-			
+
 		}
 	}
 
@@ -161,5 +160,5 @@ public class ReadCIMXML {
 	public ArrayList<PowerTransformer> getPowtrafo() {
 		return powtrafo;
 	}
-	
+
 }

@@ -28,14 +28,12 @@ public class TopologyProcessor {
 		// Nested arrayList containing all the terminals of a certain CN
 		// Iterate over the CN to create the matrix
 		for (int i = 0; i < cNList.size(); i++) {
-
 			// Add a new terminal list to the matrix
 			this.connectNode.add(new ArrayList<Terminal>());
-
 			// Add all the terminals with the same idCN to a list
-			for (int j = 0; j < this.terminal.size(); j++) {
-				if (this.terminal.get(j).getConnectNode().equals(this.cNList.get(i).getRdfID())) {
-					this.connectNode.get(i).add(this.terminal.get(j));
+			for (Terminal terminal : this.terminal) {
+				if (terminal.getConnectNode().equals(this.cNList.get(i).getRdfID())) {
+					this.connectNode.get(i).add(terminal);
 				}
 			}
 		}
@@ -106,9 +104,9 @@ public class TopologyProcessor {
 		}
 
 		// Create as many SCN as CN are left in the matrix
-		for (int j = 0; j < this.connectNode.size(); j++) {
-			String idCN = this.connectNode.get(j).get(0).getConnectNode();
-			this.sCNList.add(new SuperConnectivityNode(idCN, this.connectNode.get(j)));
+		for (ArrayList<Terminal> sCN: this.connectNode) {
+			String idCN = sCN.get(0).getConnectNode();
+			this.sCNList.add(new SuperConnectivityNode(idCN, sCN));
 		}
 	}
 	
