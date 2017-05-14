@@ -1,14 +1,14 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:cim="http://iec.ch/TC57/2013/CIM-schema-cim16#" xmlns:entsoe="http://entsoe.eu/CIM/SchemaExtension/3/1#" xmlns:md="http://iec.ch/TC57/61970-552/ModelDescription/1#">
   <md:FullModel rdf:about="urn:uuid:27048f37-4dc8-466f-99de-bca51106a0b0">
     <md:Model.created>2014-10-24T14:28:36</md:Model.created>
     <md:Model.scenarioTime>2014-10-24T12:02:49</md:Model.scenarioTime>
     <md:Model.version>2</md:Model.version>
-    <md:Model.DependentOn rdf:resource="urn:uuid:34e5b362-7771-4a8f-a5a8-571f76de9f41"/>
+    <md:Model.DependentOn rdf:resource="urn:uuid:34e5b362-7771-4a8f-a5a8-571f76de9f41" />
     <md:Model.description>CGMES Conformity Assessment: 'MicroGridTestConfiguration....T1 (Assembled) Test Configuration. The model is owned by ENTSO-E and is provided by ENTSO-E “as it is”. To the fullest extent permitted by law, ENTSO-E shall not be liable for any damages of any kind arising out of the use of the model (including any of its subsequent modifications). ENTSO-E neither warrants, nor represents that the use of the model will not infringe the rights of third parties. Any use of the model shall  include a reference to ENTSO-E. ENTSO-E web site is the only official source of information related to the model.</md:Model.description>
     <md:Model.modelingAuthoritySet>http://elia.be/CGMES/2.4.15</md:Model.modelingAuthoritySet>
     <md:Model.profile>http://entsoe.eu/CIM/SteadyStateHypothesis/1/1</md:Model.profile>
-    <md:Model.Supersedes rdf:resource="urn:uuid:52b712d1-f3b0-4a59-9191-79f2fb1e4c4e"/>
+    <md:Model.Supersedes rdf:resource="urn:uuid:52b712d1-f3b0-4a59-9191-79f2fb1e4c4e" />
   </md:FullModel>
   <cim:Terminal rdf:about="#_699545b9-82b9-4331-bc80-538d73b4ba56">
     <cim:ACDCTerminal.connected>true</cim:ACDCTerminal.connected>
@@ -157,7 +157,7 @@
   <cim:SynchronousMachine rdf:about="#_3a3b27be-b18b-4385-b557-6735d733baf0">
     <cim:RotatingMachine.p>-90.000000</cim:RotatingMachine.p>
     <cim:RotatingMachine.q>-100.256000</cim:RotatingMachine.q>
-    <cim:SynchronousMachine.operatingMode rdf:resource="http://iec.ch/TC57/2013/CIM-schema-cim16#SynchronousMachineOperatingMode.generator"/>
+    <cim:SynchronousMachine.operatingMode rdf:resource="http://iec.ch/TC57/2013/CIM-schema-cim16#SynchronousMachineOperatingMode.generator" />
     <cim:SynchronousMachine.referencePriority>0</cim:SynchronousMachine.referencePriority>
     <cim:RegulatingCondEq.controlEnabled>true</cim:RegulatingCondEq.controlEnabled>
   </cim:SynchronousMachine>
@@ -181,11 +181,11 @@
     <cim:ShuntCompensator.sections>1</cim:ShuntCompensator.sections>
     <cim:RegulatingCondEq.controlEnabled>false</cim:RegulatingCondEq.controlEnabled>
   </cim:LinearShuntCompensator>
-  <cim:Breaker rdf:about="#_6b564930-b5e2-49d3-9d06-e1de28d6fd65">
-    <cim:Switch.open>false</cim:Switch.open>
-  </cim:Breaker>
   <cim:Breaker rdf:about="#_2922c1dd-4113-466e-8cad-002572f3f557">
     <cim:Switch.open>false</cim:Switch.open>
+  </cim:Breaker>
+  <cim:Breaker rdf:about="#_6b564930-b5e2-49d3-9d06-e1de28d6fd65">
+    <cim:Switch.open>true</cim:Switch.open>
   </cim:Breaker>
   <cim:Breaker rdf:about="#_fd136c65-d001-41a1-adc7-c5430b5c5e72">
     <cim:Switch.open>false</cim:Switch.open>
@@ -211,42 +211,42 @@
   <cim:TapChangerControl rdf:about="#_97110e84-7da6-479c-846c-696fdaa83d56">
     <cim:RegulatingControl.discrete>true</cim:RegulatingControl.discrete>
     <cim:RegulatingControl.targetDeadband>0.500000</cim:RegulatingControl.targetDeadband>
-    <cim:RegulatingControl.targetValueUnitMultiplier rdf:resource="http://iec.ch/TC57/2013/CIM-schema-cim16#UnitMultiplier.k"/>
+    <cim:RegulatingControl.targetValueUnitMultiplier rdf:resource="http://iec.ch/TC57/2013/CIM-schema-cim16#UnitMultiplier.k" />
     <cim:RegulatingControl.enabled>true</cim:RegulatingControl.enabled>
     <cim:RegulatingControl.targetValue>10.815000</cim:RegulatingControl.targetValue>
   </cim:TapChangerControl>
   <cim:TapChangerControl rdf:about="#_ee42c6c2-39e7-43c2-9bdd-d397c5dc980b">
     <cim:RegulatingControl.discrete>true</cim:RegulatingControl.discrete>
     <cim:RegulatingControl.targetDeadband>0.500000</cim:RegulatingControl.targetDeadband>
-    <cim:RegulatingControl.targetValueUnitMultiplier rdf:resource="http://iec.ch/TC57/2013/CIM-schema-cim16#UnitMultiplier.k"/>
+    <cim:RegulatingControl.targetValueUnitMultiplier rdf:resource="http://iec.ch/TC57/2013/CIM-schema-cim16#UnitMultiplier.k" />
     <cim:RegulatingControl.enabled>false</cim:RegulatingControl.enabled>
     <cim:RegulatingControl.targetValue>0e+000</cim:RegulatingControl.targetValue>
   </cim:TapChangerControl>
   <cim:TapChangerControl rdf:about="#_5fc492ab-fe33-423b-84f1-a47f87552427">
     <cim:RegulatingControl.discrete>true</cim:RegulatingControl.discrete>
     <cim:RegulatingControl.targetDeadband>35.00000</cim:RegulatingControl.targetDeadband>
-    <cim:RegulatingControl.targetValueUnitMultiplier rdf:resource="http://iec.ch/TC57/2013/CIM-schema-cim16#UnitMultiplier.M"/>
+    <cim:RegulatingControl.targetValueUnitMultiplier rdf:resource="http://iec.ch/TC57/2013/CIM-schema-cim16#UnitMultiplier.M" />
     <cim:RegulatingControl.enabled>true</cim:RegulatingControl.enabled>
     <cim:RegulatingControl.targetValue>-65.000000</cim:RegulatingControl.targetValue>
   </cim:TapChangerControl>
   <cim:RegulatingControl rdf:about="#_6ba406ce-78cf-4485-9b01-a34e584f1a8d">
     <cim:RegulatingControl.discrete>false</cim:RegulatingControl.discrete>
     <cim:RegulatingControl.targetDeadband>0.500000</cim:RegulatingControl.targetDeadband>
-    <cim:RegulatingControl.targetValueUnitMultiplier rdf:resource="http://iec.ch/TC57/2013/CIM-schema-cim16#UnitMultiplier.k"/>
+    <cim:RegulatingControl.targetValueUnitMultiplier rdf:resource="http://iec.ch/TC57/2013/CIM-schema-cim16#UnitMultiplier.k" />
     <cim:RegulatingControl.enabled>true</cim:RegulatingControl.enabled>
     <cim:RegulatingControl.targetValue>115.500000</cim:RegulatingControl.targetValue>
   </cim:RegulatingControl>
   <cim:RegulatingControl rdf:about="#_67971e8d-518a-408f-9e59-c7601da9a989">
     <cim:RegulatingControl.discrete>true</cim:RegulatingControl.discrete>
     <cim:RegulatingControl.targetDeadband>0.500000</cim:RegulatingControl.targetDeadband>
-    <cim:RegulatingControl.targetValueUnitMultiplier rdf:resource="http://iec.ch/TC57/2013/CIM-schema-cim16#UnitMultiplier.k"/>
+    <cim:RegulatingControl.targetValueUnitMultiplier rdf:resource="http://iec.ch/TC57/2013/CIM-schema-cim16#UnitMultiplier.k" />
     <cim:RegulatingControl.enabled>false</cim:RegulatingControl.enabled>
     <cim:RegulatingControl.targetValue>380.000000</cim:RegulatingControl.targetValue>
   </cim:RegulatingControl>
   <cim:RegulatingControl rdf:about="#_4d50f86d-0d12-4ca3-9430-56bb05f9eee6">
     <cim:RegulatingControl.discrete>true</cim:RegulatingControl.discrete>
     <cim:RegulatingControl.targetDeadband>0.500000</cim:RegulatingControl.targetDeadband>
-    <cim:RegulatingControl.targetValueUnitMultiplier rdf:resource="http://iec.ch/TC57/2013/CIM-schema-cim16#UnitMultiplier.k"/>
+    <cim:RegulatingControl.targetValueUnitMultiplier rdf:resource="http://iec.ch/TC57/2013/CIM-schema-cim16#UnitMultiplier.k" />
     <cim:RegulatingControl.enabled>false</cim:RegulatingControl.enabled>
     <cim:RegulatingControl.targetValue>110.000000</cim:RegulatingControl.targetValue>
   </cim:RegulatingControl>

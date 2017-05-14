@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.swing.JOptionPane;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
@@ -81,7 +82,7 @@ public class ReadCIMXML {
 					String selec = nodeList.item(j).getNodeName();
 					switch (selec) {
 					case "cim:Breaker":
-						breakerList.add(new CircuitBreaker(nodeList.item(j), containerSSH.get(0).item(j)));
+						breakerList.add(new CircuitBreaker(nodeList.item(j), containerSSH.get(0)));
 						break;
 					case "cim:BaseVoltage":
 						bVoltList.add(new BaseVoltage(nodeList.item(j)));
@@ -93,13 +94,13 @@ public class ReadCIMXML {
 						voltLvlList.add(new VoltageLevel(nodeList.item(j)));
 						break;
 					case "cim:SynchronousMachine":
-						synMach.add(new SynchronousMachine(nodeList.item(j), containerSSH.get(1).item(j)));
+						synMach.add(new SynchronousMachine(nodeList.item(j), containerSSH.get(1)));
 						break;
 					case "cim:GeneratingUnit":
 						genUnit.add(new GeneratingUnit(nodeList.item(j)));
 						break;
 					case "cim:RegulatingControl":
-						regControl.add(new RegulatingControl(nodeList.item(j), containerSSH.get(2).item(j)));
+						regControl.add(new RegulatingControl(nodeList.item(j), containerSSH.get(2)));
 						break;
 					case "cim:PowerTransformer":
 						powtrafo.add(new PowerTransformer(nodeList.item(j)));
@@ -108,10 +109,10 @@ public class ReadCIMXML {
 						powtrafoEnd.add(new PowerTransformerEnd(nodeList.item(j)));
 						break;
 					case "cim:EnergyConsumer":
-						energCons.add(new EnergyConsumer(nodeList.item(j), containerSSH.get(3).item(j)));
+						energCons.add(new EnergyConsumer(nodeList.item(j), containerSSH.get(3)));
 						break;
 					case "cim:RatioTapChanger":
-						ratiotap.add(new RatioTapChanger(nodeList.item(j), containerSSH.get(4).item(j)));
+						ratiotap.add(new RatioTapChanger(nodeList.item(j), containerSSH.get(4)));
 						break;
 					case "cim:ACLineSegment":
 						lines.add(new Lines(nodeList.item(j)));
@@ -128,6 +129,8 @@ public class ReadCIMXML {
 					}
 				}
 			}
+		} catch (IllegalArgumentException e) {
+			JOptionPane.showMessageDialog(null, "Something happened with the parsing, are the files OK?");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
