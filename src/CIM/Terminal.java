@@ -3,7 +3,7 @@ package CIM;
 import org.w3c.dom.Node;
 
 public class Terminal extends CIM {
-	
+
 	private String condEquip, connectNode;
 
 	public Terminal(Node nodeEQ) {

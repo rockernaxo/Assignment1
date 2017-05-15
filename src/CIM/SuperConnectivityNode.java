@@ -2,6 +2,9 @@ package CIM;
 
 import java.util.ArrayList;
 
+// This class is used to deal with the breakers. A SuperConnectivityNode (SCN) is a fusion of two ConnectivityNodes 
+// when the breaker is closed. All the terminals in both sides of the breaker are aggregated into a SCN.
+
 public class SuperConnectivityNode {
 
 	private ArrayList<String> idCN = new ArrayList<String>();
@@ -26,13 +29,16 @@ public class SuperConnectivityNode {
 		return idCN;
 	}
 
+	// This method is used in the fusion of two SCNs, it adds the new CN id to the SCN.
 	public void addId(ArrayList<String> idCN) {
-		// Remove duplicates
+		// Remove duplicate ids
 		this.idCN.removeAll(idCN);
 		// Add the new ones
 		this.idCN.addAll(idCN);
 	}
 
+	// This method is used in the fusion of two SCNs, it adds the terminals which are not in one
+	// SCN to the other and remove the duplicates.
 	public void mergeTerminalLists(ArrayList<Terminal> terminalList) {
 		// Remove duplicates
 		this.terminalList.removeAll(terminalList);
@@ -40,6 +46,7 @@ public class SuperConnectivityNode {
 		this.terminalList.addAll(terminalList);
 	}
 	
+	// Method to check if a certain terminal is in a SCN.
 	public int isItIn(String terminalId) {
 		for (int i = 0; i < terminalList.size(); i++) {
 			if (terminalId.equals(terminalList.get(i).getRdfID()))

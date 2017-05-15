@@ -1,8 +1,12 @@
 package CIM;
 
 import org.w3c.dom.Element;
+
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
+// General class from which every CIM object inherits, it has general methods to deal with the properties extraction
+// and it also contains the attributes rdfId and name, which are common to most of the required elements.
 
 public class CIM {
 
@@ -50,7 +54,7 @@ public class CIM {
 
 	public Node extractFromId(NodeList listSSH) {
 		// This method is used to extract the node from the SSH file which has
-		// the same rdfID as the one in the EQ file
+		// the same rdfID as the one in the EQ file.
 		Node node = null;
 		for (int i = 0; i < listSSH.getLength(); i++) {
 			String rdfId = extractAttribute((Element) listSSH.item(i), "rdf:about").substring(1);
