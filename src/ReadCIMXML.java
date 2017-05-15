@@ -27,8 +27,6 @@ public class ReadCIMXML {
 	private ArrayList<Lines> lines;
 	private ArrayList<PowerTransformer> powtrafo;
 
-	// At the moment, the objects will be stored in arrayList, but later
-	// they should be sent to the database.
 	ArrayList<Substation> subList = new ArrayList<Substation>();
 	ArrayList<VoltageLevel> voltLvlList = new ArrayList<VoltageLevel>();
 	ArrayList<SynchronousMachine> synMach = new ArrayList<SynchronousMachine>();
@@ -52,6 +50,7 @@ public class ReadCIMXML {
 		processXML(fileEQ, fileSSH);
 	}
 
+	// Main method to process the CIM XML files
 	private void processXML(File fileEQ, File fileSSH) {
 		try {
 
@@ -65,7 +64,8 @@ public class ReadCIMXML {
 			docEQ.getDocumentElement().normalize();
 			docSSH.getDocumentElement().normalize();
 
-			// Add all NodeLists from the XML file into an array
+			// Add all NodeLists from the XML file into an array extracting the
+			// tags that are of interest
 			containerSSH.add(docSSH.getElementsByTagName("cim:Breaker"));
 			containerSSH.add(docSSH.getElementsByTagName("cim:SynchronousMachine"));
 			containerSSH.add(docSSH.getElementsByTagName("cim:RegulatingControl"));
@@ -75,6 +75,7 @@ public class ReadCIMXML {
 				container.add(docEQ.getElementsByTagName(tags[i]));
 			}
 
+			// Iterate over each list to create the database.
 			for (NodeList nodeList : container) {
 
 				for (int j = 0; j < nodeList.getLength(); j++) {

@@ -3,7 +3,7 @@ package CIM;
 import java.util.ArrayList;
 
 // This class is used to model the CIM transformer. It was seen that the most relevant electrical information was
-// in the first winding of the transformer and it is assigned to trafoEnd1 attribute.
+// in the first winding of the transformer, therefore, it is assigned to trafoEnd1 attribute.
 
 public class SuperTrafo implements PiModel{
 	

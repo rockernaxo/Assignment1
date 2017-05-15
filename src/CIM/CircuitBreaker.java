@@ -1,6 +1,5 @@
 package CIM;
 
-import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -19,15 +18,7 @@ public class CircuitBreaker extends CIM {
 		return state;
 	}
 
-	public void setState(boolean state) {
-		this.state = state;
-	}
-
 	public String getEquipmentContainer() {
 		return equipmentContainer;
-	}
-
-	public void setEquipmentContainer(String equipmentContainer) {
-		this.equipmentContainer = equipmentContainer;
 	}
 }

@@ -33,6 +33,7 @@ public class CIM {
 		this.rdfID = rdfID;
 	}
 
+	// Classes to handle the XML structure
 	public static String extractTag(Node node, String tag) {
 		// Method to extract a tag from a node
 		Element element = (Element) node;

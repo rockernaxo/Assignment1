@@ -1,5 +1,8 @@
 package CIM;
 
+// This class has been obtained from the Internet. Credits to its author. The unused methods have
+// been erased. Source: https://github.com/abdulfatir/jcomplexnumber
+
 /**
  * <code>ComplexNumber</code> is a class which implements complex numbers in Java. 
  * It includes basic operations that can be performed on complex numbers such as,
