@@ -20,7 +20,6 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 import java.awt.event.ActionEvent;
 
-@SuppressWarnings("serial")
 public class Gui extends JFrame {
 
 	private File fileEQ, fileSSH;
