@@ -165,4 +165,35 @@ public class ReadCIMXML {
 		return powtrafo;
 	}
 
+	public ArrayList<Substation> getSubList() {
+		return subList;
+	}
+
+	public ArrayList<VoltageLevel> getVoltLvlList() {
+		return voltLvlList;
+	}
+
+	public ArrayList<SynchronousMachine> getSynMach() {
+		return synMach;
+	}
+
+	public ArrayList<GeneratingUnit> getGenUnit() {
+		return genUnit;
+	}
+
+	public ArrayList<RegulatingControl> getRegControl() {
+		return regControl;
+	}
+
+	public ArrayList<EnergyConsumer> getEnergCons() {
+		return energCons;
+	}
+
+	public ArrayList<RatioTapChanger> getRatiotap() {
+		return ratiotap;
+	}
+
+	public ArrayList<BusbarSection> getBusbarSection() {
+		return busbarSection;
+	}
 }

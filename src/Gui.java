@@ -134,6 +134,10 @@ public class Gui extends JFrame {
 	private ComplexNumber[][] execute(File fileEQ, File fileSSH) {
 		// Call to the XML parser
 		ReadCIMXML reader = new ReadCIMXML(fileEQ, fileSSH);
+		//Create the relational database
+		SQLdatabase data = new SQLdatabase (reader.getBreakerList(), reader.getbVoltList(), reader.getSubList(),
+				reader.getVoltLvlList(), reader.getSynMach(), reader.getGenUnit(), reader.getRegControl(),
+				reader.getPowtrafo(), reader.getPowtrafoEnd(), reader.getEnergCons(), reader.getRatiotap());
 		// Call to the topology processor
 		TopologyProcessor tp = new TopologyProcessor(reader.getConnectivityNode(), reader.getTerminal(),
 				reader.getBreakerList());
