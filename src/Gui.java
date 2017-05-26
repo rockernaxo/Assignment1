@@ -3,6 +3,7 @@ import javax.swing.JTable;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import CIM.ComplexNumber;
+
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
@@ -19,6 +20,7 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 import java.awt.event.ActionEvent;
 
+@SuppressWarnings("serial")
 public class Gui extends JFrame {
 
 	private File fileEQ, fileSSH;
